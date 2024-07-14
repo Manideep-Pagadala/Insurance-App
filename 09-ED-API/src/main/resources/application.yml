@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: ED-API
+  config:
+    import: optional:configserver:http://localhost:9999
+server:
+  port: 9096
+
+dcModuleURL: http://localhost:9095/summary/{appNumber}

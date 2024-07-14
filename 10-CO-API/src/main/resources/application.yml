@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: CO-API
+  config:
+    import: optional:configserver:http://localhost:9999
+server:
+  port: 9097
+
+#AWS IAM data
+acess-key: AKIAUO5PPDRBQMCEWJVJ
+secret: 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
+region: ap-south-1
+bucketName: hisbuckets3001
+

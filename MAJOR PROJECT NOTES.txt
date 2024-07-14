@@ -1,0 +1,285 @@
+
+==============================================
+Project Name : (HIS) Health Insurance System
+==============================================
+
+Client : Rohde Island State Gov, USA
+
+Tech Stack : Java, Spring Boot, Microservices, Angular, Oracle DB, AWS Cloud.
+
+Description : 
+
+=> The main objective of HIS is to provide health and insurance plans for RI state citizens who are needy.
+
+=> Using HIS, RI state providing below plans for citizens
+
+1) SNAP (foodstamp)
+2) CCAP (child care)
+3) Medicaid (health)
+4) Medicare (health -> senior citizens)
+5) QHP (Qualified Health Plan)
+6) RIW (Rhode Island Works)
+
+Note: Every plan will have some conditions to determine eligibility. 
+
+=> When citizen apply for the plan HIS will determine citizen eligibility based on plan conditions.
+
+=> If citizen data matching with plan conditions then citizen will be approved for the plan. Approved citizens will get benefit from Govt on monthly basis.
+
+=> If Citizen Data not matching with plan conditions then citizen will be denied for the plan.
+
+
+==============
+HIS Modules
+==============
+
+1) Admin 
+2) Citizen
+3) AR 
+4) DC
+5) ED
+6) CO (Notices)
+7) BI
+
+=> Admin module contains below functionalities
+
+			a) Plans Mgmt
+			b) Reports Download
+
+=> Citizen module contains below functionalities
+
+			a) Register
+			b) Login
+			c) Dashboad
+			d) Forgot Pwd			
+
+=> AR module contains application registraion for citizen
+
+Note: Application should be created for citizen if citizen belongs to RI state.
+
+			SSN (social security number)
+
+=> DC module is used for citizen data collection
+
+			a) income data
+			b) employment data
+			c) family data
+			d) kids info
+			e) education info			
+
+=> ED module is used for citizen eligibility determination
+
+		if conditions satisfied => approval
+
+		if conditions not satisfied => denial
+
+=> CO module is used for correspondence generation (Notice)
+
+=> BI module is used for benefit issuance
+
+
+----------------------------------------------------
+
+1) Self Introduction
+
+2) Explain about your project
+
+3) Roles & Responsibilities
+
+4) What are the challenges you faced in the project
+
+
+========================
+SSA-WEB API Development
+========================
+
+1) Develop SSA Web API and deploy in aws cloud (add swagger documentation)
+
+input : citzen-name, citizen-dob, citizen-ssn
+
+output : citizen-ssn, state-name
+
+----------------------------
+Logic to decide state name
+----------------------------
+
+If ssn starts with 1 - New Jersey
+
+if ssn starts with 2 - Texas
+
+If ssn starts with 3 - Ohio
+
+If ssn starts with 4 - Rhode Island
+
+If ssn starts with 5 - Kentucky
+
+...
+
+If ssn start with 9 - Albama
+
+
+
+===================================
+Major Project Tasks (for 13th Feb)
+===================================
+
+1) Develop SSA Web API and deploy in AWS Cloud
+
+2) Setup Service Registry
+
+3) Setup Admin Server
+
+4) Setup Zipkin Server
+
+5) Setup Config Server
+
+6) Develop PLANS_API
+
+7) Develop CITIZEN-API
+
+8) Develop AR-API
+
+
+## Mockup Screens : http://ashokithis.s3-website.ap-south-1.amazonaws.com/login.html
+
+
+=======================
+HIS Application Users
+========================
+
+1) Citizen
+
+2) Admin
+
+=> For citizen below conditions apply
+
+		a) Citizen can see only his applications
+		b) Citizen can see only his benefit amount details
+		c) Citizen can see only his notices (pending/history)
+		c) Citizen can't access 'Admin' module 
+
+=> For Admin below conditions
+
+		a) Admin can see all the applications available in HIS
+		b) Admin can see any citizen notice (pending & history)
+		b) Admin can see benefit amount info for any case number
+		c) Admin can see all menu options
+
+
+Note: If any citizen can't use HIS application, those citizens can visit nearest DHS office to apply for the plans.
+
+		DHS = > Department of Health Services	
+
+
+
+==========
+DB Design
+===========
+
+---------------------------
+Table : users_tbl
+---------------------------
+user_id			int    PK
+name            varchar
+email			varchar
+phno			int
+pwd				varchar
+pwd_updated		varchar
+role            varchar  (1=admin, 2=citizen)
+created_date	date
+updated_date	date
+
+--------------------------
+Table : plan_master_tbl
+--------------------------
+plan_id			int     pk
+plan_name		varchar
+plan_start_date	date
+plan_end_date	date
+active_sw		varchar
+comments		varchar
+created_date	date
+updated_date	date
+created_by		int
+updated_by		int
+
+-------------------------
+Table : citizen_apps_tbl
+--------------------------
+app_number			int 	pk
+fullname			varchar
+dob                 date
+gender				varchar 
+ssn 				long
+user_id				int   (ref : users_tbl)
+plan_id				int   (ref : plan_master_tbl)
+created_date		date
+updated_date		date
+
+----------------------
+table : dc_income_tbl
+----------------------
+income_id		int     pk
+salary_income	int
+property_income	int
+app_number		int  (ref : citizen_apps)
+
+----------------------
+table : dc_edu_tbl
+----------------------
+edu_id			int     pk
+highest_degree	varchar
+grad_year		int
+uni_name		varchar
+app_number		int  (ref : citizen_apps)
+
+---------------------
+table : dc_kids_tbl
+---------------------
+kid_id			int     pk
+kid_name 		varchar
+kid_dob			date
+kid_ssn			long
+app_number		int  (ref : citizen_apps)
+
+----------------------
+table : ed_elig_tbl
+----------------------
+elig_id  			int   pk
+elig_status         varchar
+elig_start_date		date
+elig_end_date		date
+benefit_amt 		int
+denial_rsn			varchar
+elig_determine_date	date
+app_number			int   (ref : citizen_apps)
+
+
+--------------------
+table : co_notices
+--------------------
+co_notice_id		int  pk
+co_gen_date			date
+co_status			varchar   (p=pending, h=history)
+co_print_date		date
+co_s3_url			varchar
+app_number			int   (ref : citizen_apps)
+
+------------------
+table  : bi_table
+------------------
+bi_id				int   pk
+benefit_amt			int
+acc_num				int
+amt_sent_date		date
+tx_status			varchar
+app_number			int   (ref : citizen_apps)
+
+
+
+
+
+
+
+
+

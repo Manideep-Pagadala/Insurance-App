@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "acess-key",
+    "type": "java.lang.String",
+    "description": "A description for 'acess-key'"
+  },
+  {
+    "name": "secret",
+    "type": "java.lang.String",
+    "description": "A description for 'secret'"
+  },
+  {
+    "name": "bucketName",
+    "type": "java.lang.String",
+    "description": "A description for 'bucketName'"
+  },
+  {
+    "name": "region",
+    "type": "java.lang.String",
+    "description": "A description for 'region'"
+  }
+]}
